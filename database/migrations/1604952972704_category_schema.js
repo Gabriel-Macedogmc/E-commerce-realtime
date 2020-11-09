@@ -18,7 +18,6 @@ class CategorySchema extends Schema {
 
   down () {
     this.drop('categories')
-    table.dropForeign('image_id')
 
   }
 }
