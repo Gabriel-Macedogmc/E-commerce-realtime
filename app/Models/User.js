@@ -7,6 +7,7 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
+  //chamado toda vez q o model e instanciado ou criado
   static boot () {
     super.boot()
 
@@ -19,6 +20,10 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+  }
+
+  static get hidden() {
+    return ['password']
   }
 
   static get traits () {
@@ -41,6 +46,15 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
+
+  image() {
+    return this.belongsTo('App/Models/Image')
+  }
+
+  coupons() {
+    return this.belongsToMany('App/Models/Coupon')
+  }
+  
 }
 
 module.exports = User
