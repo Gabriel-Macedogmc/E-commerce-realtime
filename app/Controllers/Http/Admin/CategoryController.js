@@ -74,15 +74,18 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async update({ params: { id }, request, response }) {
-    const category = await Category.findOrFail(id)
-    if (!id) {
-      return response.status(404).send({ message: "Categoria não encontrada" })
-    }
-    const { title, description, image_id } = request.all()
-    category.merge({ title, description, image_id })
-    await category.save()
+    try {
+      const category = await Category.findOrFail(id)
+      const { title, description, image_id } = request.all()
+      category.merge({ title, description, image_id })
+      await category.save()
 
-    return response.status(200).send(category)
+      return response.status(200).send(category)
+    } catch (error) {
+      return response
+        .status(400)
+        .send({ message: 'Não foi possível atualizar esta categoria' })
+    }
   }
 
   /**
@@ -94,13 +97,13 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async destroy({ params: { id }, request, response }) {
-    const category = await Category.findOrFail(id)
-    if (!id) {
-      return response.status(404).send({ message: 'Categoria não encontrada' })
+    try {
+      const category = await Category.findOrFail(id)
+      category.delete()
+      response.status(204).send()
+    } catch (error) {
+      return response.status(500).send({ message: 'Não foi possível deletar a categoria' })
     }
-    category.delete()
-
-    response.status(204).send()
   }
 }
 
