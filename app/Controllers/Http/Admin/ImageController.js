@@ -50,7 +50,7 @@ class ImageController {
         const file = await managa_single_upload(filejar)
         if (!file.moved()) {
           const image = await Image.create({
-            path: file.fileName,
+            path: file.filename,
             size: file.size,
             original_name: file.clientName,
             extension: file.subtype,
@@ -70,7 +70,7 @@ class ImageController {
       await Promise.all(
         files.successes.map(async file => {
           const image = await Image.create({
-            path: file.fileName,
+            path: file.filename,
             size: file.size,
             original_name: file.clientName,
             extension: file.subtype,
