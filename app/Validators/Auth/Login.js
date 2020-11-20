@@ -3,8 +3,16 @@
 class Login {
   get rules() {
     return {
-      email: 'requerid|email',
+      email: 'required|email',
       password: 'required',
+    }
+  }
+
+  get messages() {
+    return {
+      'email.required': 'O e-mail já existe',
+      'email.email': 'O e-mail não é valido'
+
     }
   }
 }
