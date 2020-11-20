@@ -8,7 +8,12 @@ class AuthController {
     //
     const trx = await Database.beginTransaction()
     try {
-      const { name, surname, email, password } = request.all()
+      const { name, surname, email, password } = request.only([
+        'name',
+        'surname',
+        'email',
+        'password',
+      ])
 
       const user = await User.create({ name, surname, email, password }, trx)
       const userRole = await Role.findBy('slug', 'client')
